@@ -70,7 +70,7 @@ function Comment({ postId, currentUserImg, accountId }: Props) {
           )}
         />
 
-        <Button type="submit" className="bg-brand rounded-full hover:bg-brand-100">
+        <Button type="submit" className="bg-brand mt-3 ml-2 rounded-full hover:bg-brand-100">
           Reply
         </Button>
       </form>

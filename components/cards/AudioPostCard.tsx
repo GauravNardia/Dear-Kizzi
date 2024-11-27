@@ -118,7 +118,7 @@ const AudioPostCard = ({ title, description, audioFileUrl, postId, user, current
 
 
   return (
-    <section className="w-full flex justify-center items-center sm:px-5 ">
+    <section className="w-full bg-white flex justify-center items-center sm:px-5 ">
       <section className="max-w-md w-full border-b border-gray-200 overflow-hidden">
        <div className="flex ">
        <Link

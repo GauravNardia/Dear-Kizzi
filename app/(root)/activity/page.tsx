@@ -98,7 +98,7 @@ const Page = () => {
   }
 
   return (
-    <main className="w-full h-screen md:px-40 mx-auto p-4 mt-10">
+    <main className="w-full h-screen md:px-40 mx-auto p-4 ">
       {/* Notifications Section */}
       <section className="mt-6 w-full">
         <h2 className="text-xl font-semibold text-gray-800 mb-4">
@@ -110,15 +110,15 @@ const Page = () => {
               <Link
               href={`/post/${notification.postId}`}
                 key={notification.$id}
-                className="flex items-center gap-4 p-4 rounded-lg bg-white"
+                className="flex items-center gap-2 px-3 pt-2 rounded-lg bg-white"
               >
-                <div className="h-12 w-12 md:h-14 md:w-14 rounded-full overflow-hidden">
+                <div className="h-12 w-12 relative md:h-14 md:w-14 rounded-full overflow-hidden">
                   <Image
                     src={notification.userProfilePicture || "/default-avatar.png"}
                     alt={`${notification.userName}'s Profile Picture`}
                     width={48}
                     height={48}
-                    className="object-cover"
+                    className="object-cover rounded-full"
                   />
                 </div>
                 <p className="text-gray-700 text-sm md:text-base">

@@ -20,7 +20,7 @@ async function Page() {
   };
 
   return (
-    <>
+    <section className="mt-8 sm:mt-0 p-5 sm:p-10">
       <h1 className='text-2xl font-bold text-gray-800'>Edit Profile</h1>
       <p className=' text-base-regular text-light-2'>Make any changes and keep your profile up to date.</p>
 
@@ -28,7 +28,7 @@ async function Page() {
         {/* @ts-ignore */}
         <AccountProfile user={userData} />
       </section>
-    </>
+    </section>
   );
 }
 

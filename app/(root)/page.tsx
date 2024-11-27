@@ -112,7 +112,7 @@ const PostsList = async ({
             href="/write"
             className="text-brand hover:underline mt-2 text-sm"
           >
-            Share your first voice
+           Be the first one to share
           </Link>
         </div>
       )}

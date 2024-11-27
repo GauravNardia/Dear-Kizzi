@@ -78,7 +78,7 @@ const AccountProfile = ({ user }: Props) => {
   }, [preview]);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-8 h-screen">
       {/* Profile Photo Section */}
       <div className="flex flex-col items-center space-y-4">
         <label htmlFor="profilePhoto" className="text-lg font-semibold text-gray-700">

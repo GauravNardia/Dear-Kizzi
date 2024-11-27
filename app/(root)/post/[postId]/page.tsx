@@ -30,8 +30,8 @@ interface Comment {
   createdAt: string;
 }
 
-async function page({ params }: { params: Promise<{ postId: string }>  }) {
-  const  postId  = (await params).postId;
+async function page({ params }: { params: Promise<{ postId: string }> }) {
+  const postId = (await params).postId;
 
   if (!postId) return null;
 
@@ -70,25 +70,26 @@ async function page({ params }: { params: Promise<{ postId: string }>  }) {
   }
 
   // Fetch comments for the post
-  const comments: Comment[] = await fetchCommentsByPostId(postId) || [];
+  const comments: Comment[] = (await fetchCommentsByPostId(postId)) || [];
 
   return (
-    <section className="relative mt-20 sm:mt-0 h-screen flex flex-col justify-center   px-40">
+    <section className="sm:mt-0 h-screen flex flex-col justify-start px-5 py-8 bg-gray-50">
       {/* Post Section */}
-      <div>
+      <div className="w-full max-w-4xl mx-auto">
         <AudioPostCard
           key={post.$id}
           title={post.title}
           description={post.description}
           audioFileUrl={post.audioFileUrl}
-        // @ts-ignore
+          // @ts-ignore
           user={userInfo}
           postId={post.postId}
         />
       </div>
 
       {/* Comment Form */}
-      <div className="mt-7">
+      <div className="mt-10 w-full max-w-4xl mx-auto">
+        <h2 className="text-xl font-semibold mb-4">Leave a Comment</h2>
         <Comment
           postId={postId}
           currentUserImg={user.profilePhotoUrl || ""}
@@ -97,15 +98,22 @@ async function page({ params }: { params: Promise<{ postId: string }>  }) {
       </div>
 
       {/* Separator */}
-      <div className="h-[1px] bg-gray-400 w-full my-5" />
+      <div className="bg-gray-300 w-full max-w-4xl mx-auto my-6 h-px" />
 
       {/* Comments Section */}
-      <CommentCard
-        // @ts-ignore
-        comments={comments}
-        // @ts-ignore
-        userInfo={user} // Current user info
-      />
+      <div className="w-full max-w-4xl mx-auto">
+        <h2 className="text-xl font-semibold mb-4">Comments</h2>
+        {comments.length > 0 ? (
+          <CommentCard
+            // @ts-ignore
+            comments={comments}
+            // @ts-ignore
+            userInfo={user} // Current user info
+          />
+        ) : (
+          <p className="text-center text-gray-500">No comments yet. Be the first to comment!</p>
+        )}
+      </div>
     </section>
   );
 }

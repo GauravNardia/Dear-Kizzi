@@ -24,8 +24,8 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
         <Topbar userId={currentUser.$id} accountId={currentUser.accountId} />
 
         {/* Center Content */}
-        <div className="flex justify-center  items-start flex-grow overflow-auto remove-scrollbar mt-12">
-          <div className="w-full max-w-4xl  py-2 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-md rounded-xl">
+        <div className="flex justify-center items-start flex-grow overflow-auto remove-scrollbar mt-12">
+          <div className="w-full max-w-4xl py-2 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-md rounded-xl">
             {children}
           </div>
         </div>
