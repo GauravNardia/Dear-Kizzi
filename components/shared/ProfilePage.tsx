@@ -21,6 +21,9 @@ interface Props {
 const ProfilePage = ({ user, accountId }: Props) => {
   const router = useRouter();
 
+  console.log("accountId", accountId);
+  console.log("user", user.accountId)
+
   return (
     <section className="w-full h-screen">
       {/* Header */}
@@ -62,7 +65,7 @@ const ProfilePage = ({ user, accountId }: Props) => {
       </header>
 
       {/* Edit Button */}
-      {user.accountId === accountId && (
+      {user.accountId === accountId ?  
         <div className="mt-4 flex justify-center sm:justify-start">
           <Button
             onClick={() => router.push(`/user/${user.accountId}/profile/edit`)}
@@ -71,7 +74,19 @@ const ProfilePage = ({ user, accountId }: Props) => {
             Edit Profile
           </Button>
         </div>
-      )}
+      : 
+      <div>
+        <div className="mt-4 flex justify-center sm:justify-start">
+          <Button
+            onClick={() => {router.push('/challenges')}}
+            className="w-full bg-brand text-white px-4 py-2 rounded-full text-sm hover:bg-brand-100 transition"
+          >
+            Match
+          </Button>
+          
+        </div>
+      </div>
+    }
 
       {/* Navigation Tabs */}
       {/* <nav className="mt-6 border-t border-gray-700 pt-3 flex justify-around text-gray-400 text-sm">
