@@ -48,6 +48,7 @@ const OtpModal = ({
     }
 
     setIsLoading(false);
+    
   };
 
   const handleResendOtp = async () => {

@@ -18,6 +18,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { sharePost } from "@/lib/actions/post.actions";
 import Image from "next/image";
+import { useToast } from "@/hooks/use-toast";
 
 // Validation schema for the form with audio as a required field.
 const formSchema = z.object({
@@ -36,6 +37,7 @@ export function Post({ accountId }: PostFormProps) {
   const [preview, setPreview] = useState<string | null>(null);
   const [audioFile, setAudioFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
+  const {toast} = useToast();
 
 
 
@@ -66,6 +68,11 @@ export function Post({ accountId }: PostFormProps) {
     }
 
     setLoading(false);
+    toast({
+      variant: "default",
+      title: "Voice posted.",
+      className: "bg-brand text-white"
+    })
   }
 
   const handleAudioChange = (event: React.ChangeEvent<HTMLInputElement>) => {

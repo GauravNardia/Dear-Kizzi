@@ -12,12 +12,12 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { Textarea } from "../ui/textarea";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Image from "next/image";
 import { shareFeedback } from "@/lib/actions/share.actions";
+import { useToast } from "@/hooks/use-toast";
 
 // Validation schema for the form with audio as a required field.
 const formSchema = z.object({
@@ -28,6 +28,7 @@ const formSchema = z.object({
 
 const  FeedbackForm = () => {
   const [loading, setLoading] = useState(false);
+  const {toast} = useToast()
 
 
 
@@ -52,6 +53,12 @@ const  FeedbackForm = () => {
     }
 
     setLoading(false);
+    toast({
+      variant: "default",
+      title: "Feedback successfully submitted.",
+      description: "Thank you for your feedback.",
+      className: "bg-brand text-white"
+    })
   }
 
   return (

@@ -19,6 +19,7 @@ import { useRouter } from "next/navigation"; // Import useRouter for client-side
 import { SubmitLetter } from "@/lib/actions/letter.actions";
 import Image from "next/image";
 import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 // Validation schema for the form.
 const formSchema = z.object({
@@ -34,6 +35,8 @@ interface LetterFormProps {
 
 export function LetterForm({ accountId }: LetterFormProps) {
   const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
+
   // Define the form
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -60,6 +63,11 @@ export function LetterForm({ accountId }: LetterFormProps) {
       console.error("Error creating document:", error);
     }finally{
       setLoading(false);
+      toast({
+        variant: "default",
+        title: "Letter saved.",
+        className: "bg-brand text-white"
+      })
     }
   }
 

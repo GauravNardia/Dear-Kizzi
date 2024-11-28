@@ -20,10 +20,6 @@ interface Props {
 
 const ProfilePage = ({ user, accountId }: Props) => {
   const router = useRouter();
-
-  console.log("accountId", accountId);
-  console.log("user", user.accountId)
-
   return (
     <section className="w-full h-screen">
       {/* Header */}

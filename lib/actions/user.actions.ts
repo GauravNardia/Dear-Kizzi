@@ -198,6 +198,8 @@ export const registerUserWithPhoto = async ({
 
     const profilePhotoUrl = `${process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT}/storage/buckets/${bucketId}/files/${uploadResponse.$id}/view?project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT}`;
 
+    const lowercaseUsername = username.toLowerCase();
+
     // Step 3: Update user document in Appwrite database with new fields
     const updatedUser = await databases.updateDocument(
       databaseId,
@@ -205,7 +207,7 @@ export const registerUserWithPhoto = async ({
       userDocument.$id,  // Use the existing user document ID
       {
         name,  // Update name
-        username,  // Update username
+        username : lowercaseUsername,  // Update username
         bio,  // Update bio
         profilePhotoUrl,  // Update profile photo URL
         onboarded: true

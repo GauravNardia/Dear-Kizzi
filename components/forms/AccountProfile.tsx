@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
+import { useToast } from "@/hooks/use-toast";
 
 interface Props {
   user: {
@@ -21,6 +22,7 @@ interface Props {
 }
 
 const AccountProfile = ({ user }: Props) => {
+  const { toast } = useToast()
   const router = useRouter();
   const [preview, setPreview] = useState<string>(user.profilePhotoUrl || "/assets/profile.svg");
   const [profileFile, setProfileFile] = useState<File | null>(null);
@@ -36,7 +38,11 @@ const AccountProfile = ({ user }: Props) => {
 
   const onSubmit = async (data: any) => {
     if (!profileFile) {
-      console.log("No profile photo selected.");
+      toast({
+        title: "No profile choosen",
+        description: "Please choose a profile",
+        variant: "destructive",
+      })
       return;
     }
 
@@ -47,8 +53,6 @@ const AccountProfile = ({ user }: Props) => {
         bio: data.bio,
         profileFile,
       });
-
-      console.log("User updated successfully:", updatedUser);
       router.push(`/user/${user.accountId}/profile`);
     } catch (error) {
       console.error("Error during registration:", error);
@@ -63,6 +67,7 @@ const AccountProfile = ({ user }: Props) => {
 
       const objectUrl = URL.createObjectURL(file);
       setPreview(objectUrl);
+
     } else {
       setPreview(user.profilePhotoUrl || "/assets/profile.svg");
       setProfileFile(null);
