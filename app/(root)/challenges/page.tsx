@@ -1,19 +1,12 @@
-import Link from 'next/link'
+import ChallengesPage from '@/components/shared/challenges'
 import React from 'react'
 
-const Challenges = () => {
+const Challenges = async() => {
+
   return (
-    <div className='w-full flex flex-col justify-center items-center h-screen'>
-        <h1 className="text-black dark:text-white text-lg font-semibold">
-          Coming Soon
-        </h1>
-        <span className="text-sm text-gray-600 dark:text-gray-400">
-          Until then, enjoy the voices and letters.
-        </span>
-        <Link href="/write" className="text-brand mt-3 hover:underline">
-          Express yourself :)
-        </Link>
-    </div>
+    <section className='flex flex-col justify-center items-center w-full h-screen'>
+     <ChallengesPage/>     
+    </section>
   )
 }
 

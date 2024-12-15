@@ -13,20 +13,20 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "../ui/textarea";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "../ui/select";
-import { useRouter } from "next/navigation"; // Import useRouter for client-side navigation
+import { useRouter } from "next/navigation";
 import { SubmitLetter } from "@/lib/actions/letter.actions";
 import Image from "next/image";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import MDEditor from '@uiw/react-md-editor';
 
 // Validation schema for the form.
 const formSchema = z.object({
   title: z.string().min(2, { message: "Title must be at least 2 characters." }),
-  letter: z.string().min(10, { message: "Letter must be at least 10 characters." }),
+  letter: z.string().min(1, { message: "Letter content cannot be empty." }),
   mood: z.string().nonempty({ message: "Please select your mood." }),
-  accountId: z.string()
+  accountId: z.string(),
 });
 
 interface LetterFormProps {
@@ -44,30 +44,35 @@ export function LetterForm({ accountId }: LetterFormProps) {
       title: "",
       letter: "",
       mood: "",
-      accountId: accountId
+      accountId: accountId,
     },
   });
 
-  const router = useRouter(); // Initialize useRouter
+  const router = useRouter();
 
   // Define the submit handler
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setLoading(true);
     try {
-      // Submit the form data to Appwrite
+      // Submit the form data
       await SubmitLetter(values);
 
       // Redirect to the home page after successful form submission
-      router.push('/my-letters'); // Use router.push() for redirection
-    } catch (error) {
-      console.error("Error creating document:", error);
-    }finally{
-      setLoading(false);
+      router.push("/my-letters");
       toast({
         variant: "default",
         title: "Letter saved.",
-        className: "bg-brand text-white"
-      })
+        className: "bg-brand text-white",
+      });
+    } catch (error) {
+      console.error("Error creating document:", error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to save your letter. Please try again.",
+      });
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -99,11 +104,11 @@ export function LetterForm({ accountId }: LetterFormProps) {
           name="mood"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-2xl font-semibold  text-gray-800">How's your mood?</FormLabel>
+              <FormLabel className="text-2xl font-semibold text-gray-800">How's your mood?</FormLabel>
               <FormControl>
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <SelectTrigger className="w-[180px] bg-transparent border-black text-gray-800 border-gray-300 rounded-full text-md">
-                    <SelectValue placeholder="select" />
+                    <SelectValue placeholder="Select" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
@@ -120,7 +125,7 @@ export function LetterForm({ accountId }: LetterFormProps) {
           )}
         />
 
-        {/* Letter textarea field */}
+        {/* Letter editor field */}
         <FormField
           control={form.control}
           name="letter"
@@ -128,10 +133,19 @@ export function LetterForm({ accountId }: LetterFormProps) {
             <FormItem>
               <FormLabel className="text-2xl font-semibold text-gray-800">Write your thoughts</FormLabel>
               <FormControl>
-                <Textarea
-                  placeholder="The moments"
-                  className="bg-white h-60 rounded-lg "
-                  {...field}
+                <MDEditor
+                  value={field.value}
+                  onChange={(value) => field.onChange(value || "")}
+                  id="letter"
+                  preview="edit"
+                  height={300}
+                  style={{ borderRadius: 20, overflow: "hidden" }}
+                  textareaProps={{
+                    placeholder: "Write your letter",
+                  }}
+                  previewOptions={{
+                    disallowedElements: ["style"],
+                  }}
                 />
               </FormControl>
               <FormMessage />
@@ -140,23 +154,22 @@ export function LetterForm({ accountId }: LetterFormProps) {
         />
 
         {/* Submit button */}
-        <Button type="submit" className="rounded-full">
-        {loading ? (
-      "Saving..."
-  ) : (
-    <>
-      <Image
-        src="/assets/save.svg"
-        alt="Moments Icon"
-        width={20}
-        height={20}
-        className="invert"
-      />
-      <span>Save your moments</span>
-    </>
-  )}
-          
-          </Button>
+        <Button type="submit" className="rounded-full" disabled={loading}>
+          {loading ? (
+            "Saving..."
+          ) : (
+            <>
+              <Image
+                src="/assets/save.svg"
+                alt="Moments Icon"
+                width={20}
+                height={20}
+                className="invert"
+              />
+              <span>Save your moments</span>
+            </>
+          )}
+        </Button>
       </form>
     </Form>
   );

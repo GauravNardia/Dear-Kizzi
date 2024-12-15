@@ -3,9 +3,11 @@ import React from 'react'
 
 const page = () => {
   return (
-    <section className='md:px-40 px-5 h-screen'>
-      <h1 className='text-2xl font-bold text-gray-800 my-5'>My precious memories</h1>
-        <Letters/>
+    <section className=' mb-10 px-5'>
+      <h1 className='text-2xl font-bold text-gray-800 py-5 mb-10'>My precious memories</h1>
+       <div className='mt-5' >
+       <Letters/>
+       </div>
     </section>
   )
 }

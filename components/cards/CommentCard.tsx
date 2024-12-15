@@ -20,25 +20,25 @@ interface Props {
 
 const CommentCard: React.FC<Props> = ({ comments, userInfo }) => {
     return (
-        <section className="flex flex-col gap-6 sm:p-6 w-full h-auto overflow-auto">
+        <section className="flex flex-col gap-6 sm:p-6 w-full h-auto bg-white overflow-auto">
             {comments.map((comment, index) => (
                 <div
                     key={index}
-                    className="flex flex-col gap-3 p-5 bg-gray-50 rounded-md border border-gray-200"
+                    className="flex flex-col gap-3 p-5  rounded-md"
                 >
                     {/* User Info */}
                     <Link
                         href={`/user/${userInfo.accountId}/profile`}
                         className="flex items-center gap-3 max-w-60"
                     >
-                        <div className="relative h-10 w-10 rounded-full overflow-hidden bg-gray-100">
+                        <div className="relative h-8 w-8 rounded-full overflow-hidden ">
                             {userInfo.profilePhotoUrl ? (
                                 <Image
                                     src={userInfo.profilePhotoUrl}
                                     alt={`${userInfo.name}'s profile`}
-                                    width={40}
-                                    height={40}
-                                    className="object-cover"
+                                    width={35}
+                                    height={35}
+                                    className="object-cover rounded-full h-full w-full "
                                 />
                             ) : (
                                 <span className="flex h-full w-full items-center justify-center text-gray-400">
@@ -52,7 +52,7 @@ const CommentCard: React.FC<Props> = ({ comments, userInfo }) => {
                     </Link>
 
                     {/* Comment */}
-                    <p className="text-gray-700 text-sm sm:text-base px-2">
+                    <p className="text-gray-800 text-md text-left px-5">
                         {comment.comment}
                     </p>
                 </div>

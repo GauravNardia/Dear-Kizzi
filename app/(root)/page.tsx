@@ -1,5 +1,6 @@
 import AudioPostCard from "@/components/cards/AudioPostCard";
 import { fetchAllPosts } from "@/lib/actions/post.actions";
+import ChallengesPage from '@/components/shared/challenges'
 import { fetchUserByAccountId, getCurrentUser } from "@/lib/actions/user.actions";
 import { redirect } from "next/navigation";
 import {
@@ -23,6 +24,7 @@ const fetchPostsWithUsers = async () => {
   return postsWithUsers;
 };
 
+
 // Skeleton loader for posts
 const PostSkeleton = () => (
   <div className="animate-pulse flex flex-col gap-3">
@@ -34,6 +36,8 @@ const PostSkeleton = () => (
     ))}
   </div>
 );
+
+
 
 // Optimized Home Component
 const Home = async () => {
@@ -66,15 +70,9 @@ const Home = async () => {
         value="challenges"
         className="flex flex-col min-h-screen w-full justify-center items-center"
       >
-        <h1 className="text-black dark:text-white text-lg font-semibold">
-          Coming Soon
-        </h1>
-        <span className="text-sm text-gray-600 dark:text-gray-400">
-          Until then, enjoy the voices and letters.
-        </span>
-        <Link href="/write" className="text-brand mt-3 hover:underline">
-          Express yourself :)
-        </Link>
+    <section className='flex flex-col justify-center items-center w-full h-screen mt-3'>
+     <ChallengesPage/>     
+    </section>
       </TabsContent>
     </Tabs>
   );
@@ -102,17 +100,20 @@ const PostsList = async ({
               user={post.user}
               currentUser={currentUser.accountId}
               postId={post.postId}
+              createdAt={post.$createdAt}
             />
           ))}
         </div>
       ) : (
         <div className="text-center text-gray-400 p-4 flex flex-col items-center">
-          <p>No voices available</p>
+          <h1 className="text-xl" >No voices available!</h1>
+          <p className="text-md">Be the first one to share</p>
+
           <Link
             href="/write"
-            className="text-brand hover:underline mt-2 text-sm"
+            className="text-brand text-xl mt-3 hover:underline mt-2 text-sm"
           >
-           Be the first one to share
+           Click here +
           </Link>
         </div>
       )}

@@ -238,3 +238,25 @@ export function isBase64Image(imageData: string) {
   const base64Regex = /^data:image\/(png|jpe?g|gif|webp);base64,/;
   return base64Regex.test(imageData);
 }
+
+
+export function convertToRelativeTime(createdAt: string | number | Date) {
+  const date = new Date(createdAt); // Convert to JavaScript Date object
+  const now = new Date(); // Current date
+
+  const diffMs = now - date; // Difference in milliseconds
+  const diffSeconds = Math.floor(diffMs / 1000); // Difference in seconds
+  const diffMinutes = Math.floor(diffSeconds / 60); // Difference in minutes
+  const diffHours = Math.floor(diffMinutes / 60); // Difference in hours
+  const diffDays = Math.floor(diffHours / 24); // Difference in days
+
+  if (diffDays > 0) {
+      return `${diffDays}d ago`;
+  } else if (diffHours > 0) {
+      return `${diffHours}h ago`;
+  } else if (diffMinutes > 0) {
+      return `${diffMinutes}m ago`;
+  } else {
+      return `${diffSeconds}s ago`;
+  }
+}

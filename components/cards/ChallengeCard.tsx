@@ -14,6 +14,7 @@ import { Button } from "../ui/button";
 import MatchingCard from "./MatchingCard";
 import { fetchAllUsers } from "@/lib/actions/user.actions";
 
+
 type TaskProps = {
   task: {
     id: string;
@@ -63,7 +64,7 @@ const ChallengeCard = ({ task }: TaskProps) => {
         <AlertDialogTrigger asChild>
           <Button
             onClick={handleParticipate}
-            className="bg-indigo-600 text-white px-6 py-2 rounded-full font-semibold text-sm shadow-md hover:bg-indigo-500 hover:text-white focus:ring-4 focus:ring-indigo-300 transition"
+            className="bg-brand text-white px-6 py-2 rounded-full font-semibold text-sm shadow-md hover:bg-brand-100 hover:text-white focus:ring-4 focus:ring-indigo-300 transition"
             variant="outline"
           >
             Participate
@@ -75,13 +76,13 @@ const ChallengeCard = ({ task }: TaskProps) => {
               Matched partners.
               <AlertDialogCancel className="bg-none border-none text-gray-400">X</AlertDialogCancel>
             </AlertDialogTitle>
-            <AlertDialogDescription>
+            <AlertDialogDescription className="text-md text-gray-600">
               Once they confirm your request, complete the challenge!
             </AlertDialogDescription>
           </AlertDialogHeader>
           <section>
             {loading ? (
-              <p>Loading matches...</p>
+              <div className="w-full flex justify-center">Loading matches...</div>
             ) : users.length > 0 ? (
               users.map((user) => (
                 <MatchingCard
@@ -89,7 +90,7 @@ const ChallengeCard = ({ task }: TaskProps) => {
                   id={user.accountId}
                   name={user.name}
                   username={user.username}
-                  imgUrl={user.imgUrl} taskId={""} taskName={task.name} />
+                  imgUrl={user.imgUrl} taskId={task.id} taskName={task.name} />
               ))
             ) : (
               <p>No matches found. See other challenges!</p>

@@ -227,6 +227,7 @@ export const fetchAllUsers = async () => {
     const response = await databases.listDocuments(
       process.env.NEXT_PUBLIC_APPWRITE_DATABASE!,
       process.env.NEXT_PUBLIC_APPWRITE_USERS_COLLECTION!
+      
     );
 
     // Return plain user data
@@ -276,4 +277,3 @@ export const fetchUsers = async ({
     throw new Error("Failed to fetch users");
   }
 };
-

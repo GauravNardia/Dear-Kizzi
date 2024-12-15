@@ -9,11 +9,13 @@ import { addComment, getCommentStatus } from "@/lib/actions/comment.actions";
 import { redirect } from "next/navigation";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import { deletePost } from "@/lib/actions/post.actions";
+import {convertToRelativeTime} from "@/lib/utils"
 
 interface AudioPostCardProps {
   title: string;
   description: string;
   audioFileUrl: string;
+  createdAt: Date;
   postId: string;
   user: {
     name: string;
@@ -26,7 +28,7 @@ interface AudioPostCardProps {
   }
 }
 
-const AudioPostCard = ({ title, description, audioFileUrl, postId, user, currentUser }: AudioPostCardProps) => {
+const AudioPostCard = ({ title, description, audioFileUrl, postId, user, currentUser, createdAt }: AudioPostCardProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -106,7 +108,6 @@ const AudioPostCard = ({ title, description, audioFileUrl, postId, user, current
     setError(null); // Reset error message before trying to delete
     try {
       const response = await deletePost(postId); // Call your deletePost function
-      console.log('Post deleted:', response);
     } catch (err) {
       console.error('Error deleting post:', err);
       setError('Failed to delete post');
@@ -139,6 +140,8 @@ const AudioPostCard = ({ title, description, audioFileUrl, postId, user, current
   {/* User Information */}
   <div className="flex flex-col justify-between flex-grow">
     <h2 className="text-base font-semibold lowercase truncate">{user.username}</h2>
+    <span className="text-[13px] text-left">{convertToRelativeTime(createdAt)}</span>
+
   </div>
 
   {/* More Options */}

@@ -73,7 +73,7 @@ async function page({ params }: { params: Promise<{ postId: string }> }) {
   const comments: Comment[] = (await fetchCommentsByPostId(postId)) || [];
 
   return (
-    <section className="sm:mt-0 h-screen flex flex-col justify-start px-5 py-8 bg-gray-50">
+    <section className="sm:mt-0 h-screen flex flex-col justify-start px-5 py-8 bg-white">
       {/* Post Section */}
       <div className="w-full max-w-4xl mx-auto">
         <AudioPostCard
@@ -84,11 +84,12 @@ async function page({ params }: { params: Promise<{ postId: string }> }) {
           // @ts-ignore
           user={userInfo}
           postId={post.postId}
+          createdAt={post.$createdAt}
         />
       </div>
 
       {/* Comment Form */}
-      <div className="mt-10 w-full max-w-4xl mx-auto">
+      <div className="mt-10 w-full max-w-4xl mx-auto bg-white sm:px-10 ">
         <h2 className="text-xl font-semibold mb-4">Leave a Comment</h2>
         <Comment
           postId={postId}
@@ -111,7 +112,7 @@ async function page({ params }: { params: Promise<{ postId: string }> }) {
             userInfo={user} // Current user info
           />
         ) : (
-          <p className="text-center text-gray-500">No comments yet. Be the first to comment!</p>
+          <p className="text-center text-gray-500">No comments yet.<br/>Be the first to comment!</p>
         )}
       </div>
     </section>
