@@ -14,29 +14,32 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
   if (!currentUser) return redirect("/sign-in");
 
   return (
-    <main className="flex min-h-screen bg-white">
-      {/* Left Sidebar */}
-      <Sidebar {...currentUser} />
+<main className="flex min-h-screen bg-white">
+  {/* Left Sidebar */}
+  <div className="sticky top-0 h-screen">
+    <Sidebar {...currentUser} />
+  </div>
 
-      {/* Main Content */}
-      <div className="flex flex-1 flex-col">
-        {/* Topbar */}
-        <Topbar userId={currentUser.$id} accountId={currentUser.accountId} />
+  {/* Main Content */}
+  <div className="flex flex-1 flex-col">
+    {/* Topbar */}
+    <Topbar userId={currentUser.$id} accountId={currentUser.accountId} />
 
-        {/* Center Content */}
-        <div className="flex justify-center items-start flex-grow overflow-auto remove-scrollbar mt-12">
-          <div className="w-full max-w-4xl py-2 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-md rounded-xl">
-            {children}
-          </div>
-        </div>
-
-        {/* Bottom Bar */}
-        <BottomBar accountId={currentUser.accountId} />
+    {/* Center Content */}
+    <div className="flex justify-center items-start flex-grow overflow-auto remove-scrollbar mt-12">
+      <div className="w-full max-w-4xl py-2 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-xl">
+        {children}
       </div>
+    </div>
 
-      {/* Right Sidebar */}
-      <RightSidebar />
-    </main>
+    {/* Bottom Bar */}
+    <BottomBar accountId={currentUser.accountId} />
+  </div>
+
+  {/* Right Sidebar */}
+  <RightSidebar />
+</main>
+
   );
 };
 

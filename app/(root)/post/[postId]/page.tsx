@@ -84,6 +84,7 @@ async function page({ params }: { params: Promise<{ postId: string }> }) {
           // @ts-ignore
           user={userInfo}
           postId={post.postId}
+          // @ts-ignore
           createdAt={post.$createdAt}
         />
       </div>
@@ -95,15 +96,15 @@ async function page({ params }: { params: Promise<{ postId: string }> }) {
           postId={postId}
           currentUserImg={user.profilePhotoUrl || ""}
           accountId={user.accountId}
+          name={userInfo.name}
         />
       </div>
 
       {/* Separator */}
-      <div className="bg-gray-300 w-full max-w-4xl mx-auto my-6 h-px" />
+      <div className="bg-gray-300 w-full max-w-4xl mx-auto" />
 
       {/* Comments Section */}
       <div className="w-full max-w-4xl mx-auto">
-        <h2 className="text-xl font-semibold mb-4">Comments</h2>
         {comments.length > 0 ? (
           <CommentCard
             // @ts-ignore

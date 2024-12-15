@@ -53,8 +53,8 @@ const ProfilePage = ({ user, accountId }: Props) => {
           <Image
             src={user.profilePhotoUrl}
             alt={`${user.name}'s Profile`}
-            width={80}
-            height={80}
+            width={1000}
+            height={1000}
             className="object-cover w-full h-full"
           />
         </div>

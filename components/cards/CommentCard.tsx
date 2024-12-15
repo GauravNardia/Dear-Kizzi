@@ -36,8 +36,8 @@ const CommentCard: React.FC<Props> = ({ comments, userInfo }) => {
                                 <Image
                                     src={userInfo.profilePhotoUrl}
                                     alt={`${userInfo.name}'s profile`}
-                                    width={35}
-                                    height={35}
+                                    width={1000}
+                                    height={1000}
                                     className="object-cover rounded-full h-full w-full "
                                 />
                             ) : (

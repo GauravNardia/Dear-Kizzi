@@ -36,7 +36,7 @@ export async function addComment(accountId: string, postId: string, comment: str
             commentCount: updatedCommentCount,
         });
 
-   return revalidatePath("/")
+   return revalidatePath(`/post/${postId}`)
 
     } catch (error: any) {
         return { success: false, message: error.message };

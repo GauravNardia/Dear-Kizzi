@@ -131,8 +131,8 @@ const AudioPostCard = ({ title, description, audioFileUrl, postId, user, current
     <Image
       src={user.profilePhotoUrl || "/assets/placeholder-profile.jpg"}
       alt="Profile photo"
-      width={56}
-      height={56}
+      width={1000}
+      height={1000}
       className="object-cover w-full h-full"
     />
   </div>
@@ -174,7 +174,7 @@ const AudioPostCard = ({ title, description, audioFileUrl, postId, user, current
              variant="link" className="text-red">
               Delete voice
              </Button>
-             : <span className="text-sm text-red">Can't delete others voice</span>
+             : <span className="text-sm text-red">Can't delete</span>
                }
           </DropdownMenuItem>
         </DropdownMenuGroup>

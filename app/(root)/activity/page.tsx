@@ -141,8 +141,8 @@ const Page = () => {
                   <Image
                     src={notification.userProfilePicture || "/default-avatar.png"}
                     alt={`${notification.userName}'s Profile Picture`}
-                    width={48}
-                    height={48}
+                    width={1000}
+                    height={1000}
                     className="object-cover rounded-full w-full h-full"
                   />
                 </div>
@@ -190,8 +190,8 @@ const Page = () => {
                       "/default-avatar.png"
                     }
                     alt={`${match.senderDetails?.name || "Unknown Sender"}'s Profile Picture`}
-                    width={48}
-                    height={48}
+                    width={1000}
+                    height={1000}
                     className="object-cover w-full h-full"
                   />
                 </div>
