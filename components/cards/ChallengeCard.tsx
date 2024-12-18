@@ -90,7 +90,11 @@ const ChallengeCard = ({ task }: TaskProps) => {
                   id={user.accountId}
                   name={user.name}
                   username={user.username}
-                  imgUrl={user.imgUrl} taskId={task.id} taskName={task.name} />
+                  imgUrl={user.imgUrl} 
+                  taskId={task.id} 
+                  taskName={task.name}
+                  taskduration={task.duration} 
+                  />
               ))
             ) : (
               <p>No matches found. See other challenges!</p>

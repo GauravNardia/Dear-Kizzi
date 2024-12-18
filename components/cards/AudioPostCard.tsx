@@ -1,15 +1,14 @@
 "use client";
-
+import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState, useRef, useEffect } from "react";
 import { Button } from "../ui/button";
 import { addLike, getLikeStatus, removeLike } from "@/lib/actions/like.actions";
 import { addComment, getCommentStatus } from "@/lib/actions/comment.actions";
 import { redirect } from "next/navigation";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import { deletePost } from "@/lib/actions/post.actions";
-import {convertToRelativeTime} from "@/lib/utils"
+import { convertToRelativeTime } from "@/lib/utils";
 
 interface AudioPostCardProps {
   title: string;
@@ -17,6 +16,7 @@ interface AudioPostCardProps {
   audioFileUrl: string;
   createdAt: Date;
   postId: string;
+  author: string
   user: {
     name: string;
     username: string;
@@ -25,10 +25,10 @@ interface AudioPostCardProps {
   };
   currentUser: {
     accountId: string;
-  }
+  };
 }
 
-const AudioPostCard = ({ title, description, audioFileUrl, postId, user, currentUser, createdAt }: AudioPostCardProps) => {
+const AudioPostCard = ({ title, description, audioFileUrl, postId, user, currentUser, author, createdAt }: AudioPostCardProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -41,24 +41,21 @@ const AudioPostCard = ({ title, description, audioFileUrl, postId, user, current
 
   useEffect(() => {
     const fetchLikeStatus = async () => {
-      const { isLiked, likeCount } = await getLikeStatus(user.accountId, postId);
+      const { isLiked, likeCount } = await getLikeStatus(user?.accountId, postId);
       setIsLiked(isLiked);
       setLikeCount(likeCount);
     };
 
     const fetchCommentStatus = async () => {
-      const {commentCount} = await getCommentStatus(postId);
+      const { commentCount } = await getCommentStatus(postId);
       setCommentCount(commentCount);
+    };
+
+    if (user?.accountId) {
+      fetchLikeStatus();
+      fetchCommentStatus();
     }
-
-
-
-
-    fetchLikeStatus();
-    fetchCommentStatus();
-
-  }, [user.accountId, postId]);
-
+  }, [user?.accountId, postId]);
 
   const toggleAudio = () => {
     if (audioRef.current) {
@@ -73,34 +70,34 @@ const AudioPostCard = ({ title, description, audioFileUrl, postId, user, current
   };
 
   const handleLike = async () => {
+    // Optimistically update the UI before the request
+    const newLikeCount = isLiked ? likeCount - 1 : likeCount + 1;
+    setLikeCount(newLikeCount);
+    setIsLiked(!isLiked);
+
     try {
       if (isLiked) {
-        // If already liked, remove the like from the database
-        const response = await removeLike(user.accountId, postId);
-        if (response) {
-          setIsLiked(false);
-          setLikeCount((prev) => prev - 1); // Optimistically update like count
-        } else {
-          console.error(response);
+        // Remove like
+        const response = await removeLike(user?.accountId, postId);
+        if (!response) {
+          throw new Error("Failed to remove like");
         }
       } else {
-        // If not liked, add the like to the database
-        const response = await addLike(user.accountId, postId);
-        if (response) {
-          setIsLiked(true);
-          setLikeCount((prev) => prev + 1); // Optimistically update like count
-        } else {
-          console.error(response);
+        // Add like
+        const response = await addLike(user?.accountId, postId);
+        if (!response) {
+          throw new Error("Failed to add like");
         }
       }
     } catch (error) {
       console.error("Error handling like:", error);
+      // If the request fails, rollback the optimistic UI change
+      setLikeCount(isLiked ? likeCount : likeCount - 1);
+      setIsLiked(isLiked);
     }
   };
-  
-
   const handleComment = async () => {
-   redirect(`/post/${postId}`)
+    redirect(`/post/${postId}`);
   };
 
   const handleDelete = async () => {
@@ -108,6 +105,9 @@ const AudioPostCard = ({ title, description, audioFileUrl, postId, user, current
     setError(null); // Reset error message before trying to delete
     try {
       const response = await deletePost(postId); // Call your deletePost function
+      if (!response) {
+        throw new Error("Failed to delete post");
+      }
     } catch (err) {
       console.error('Error deleting post:', err);
       setError('Failed to delete post');
@@ -116,55 +116,51 @@ const AudioPostCard = ({ title, description, audioFileUrl, postId, user, current
     }
   };
 
-
-
   return (
-    <section className="w-full bg-white flex justify-center items-center sm:px-5 ">
+    <section className="w-full bg-white flex justify-center items-center sm:px-5">
       <section className="max-w-md w-full border-b border-gray-200 overflow-hidden">
-       <div className="flex ">
-       <Link
-      href={`/user/${user.accountId}/profile`}
-      className="flex relative items-center gap-4 dark:text-white text-gray-800 px-5 py-3 rounded-lg hover:bg-pink-700 transition-all duration-300"
-      >
-  {/* Profile Photo */}
-  <div className=" w-10 h-10 sm:w-14 sm:h-14 flex-shrink-0 rounded-full overflow-hidden border border-white dark:border-gray-500">
-    <Image
-      src={user.profilePhotoUrl || "/assets/placeholder-profile.jpg"}
-      alt="Profile photo"
-      width={1000}
-      height={1000}
-      className="object-cover w-full h-full"
-    />
-  </div>
+        <div className="flex">
+          <Link
+            href={`/user/${user?.accountId}/profile`}
+            className="flex relative items-center gap-4 dark:text-white text-gray-800 px-5 py-3 rounded-lg hover:bg-pink-700 transition-all duration-300"
+          >
+            {/* Profile Photo */}
+            <div className="w-10 h-10 sm:w-14 sm:h-14 flex-shrink-0 rounded-full overflow-hidden border border-white dark:border-gray-500">
+              <Image
+                src={user?.profilePhotoUrl || "/assets/placeholder-profile.jpg"}
+                alt="Profile photo"
+                width={1000}
+                height={1000}
+                className="object-cover w-full h-full"
+              />
+            </div>
 
-  {/* User Information */}
-  <div className="flex flex-col justify-between flex-grow">
-    <h2 className="text-base font-semibold lowercase truncate">{user.username}</h2>
-    <span className="text-[13px] text-left">{convertToRelativeTime(createdAt)}</span>
+            {/* User Information */}
+            <div className="flex flex-col justify-between flex-grow">
+              <h2 className="text-base font-semibold lowercase truncate">{user?.username}</h2>
+              <span className="text-[13px] text-left">{convertToRelativeTime(createdAt)}</span>
+            </div>
 
-  </div>
-
-  {/* More Options */}
-      </Link>
-  <div className="flex items-center ml-auto -mt-2">
-   
-   <DropdownMenu>
-    <DropdownMenuTrigger asChild className="border-none">
-    <Button
-    variant="link"
-      onClick={(e) => {
-        e.preventDefault(); // Prevent the parent `Link` navigation
-        alert("Button clicked!");
-      }}
-      className="text-lg font-semibold bg-transparent border-none focus:outline-none cursor-pointer px-10 "
-    >
-      ...
-      </Button>
-    </DropdownMenuTrigger>
-    <DropdownMenuContent >
-    <DropdownMenuGroup>
-          <DropdownMenuItem>
-            {
+            {/* More Options */}
+          </Link>
+          <div className="flex items-center ml-auto -mt-2">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild className="border-none">
+                <Button
+                  variant="link"
+                  onClick={(e) => {
+                    e.preventDefault(); // Prevent the parent `Link` navigation
+                    alert("Button clicked!");
+                  }}
+                  className="text-lg font-semibold bg-transparent border-none focus:outline-none cursor-pointer px-10"
+                >
+                  ...
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuGroup>
+                  <DropdownMenuItem>
+                  {
               // @ts-ignore
             user.accountId === currentUser
              ?
@@ -176,15 +172,12 @@ const AudioPostCard = ({ title, description, audioFileUrl, postId, user, current
              </Button>
              : <span className="text-sm text-red">Can't delete</span>
                }
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
-    </DropdownMenuContent>
-   </DropdownMenu>
-     
-  </div>
-       </div>
-
-
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        </div>
 
         <div className="flex p-5 space-y-2">
           <div className="w-full -mt-3">
@@ -207,7 +200,7 @@ const AudioPostCard = ({ title, description, audioFileUrl, postId, user, current
           </div>
         </div>
 
-        <div className="p-2 -mt-5 flex items-center -space-x-5 ">
+        <div className="p-2 -mt-5 flex items-center -space-x-5">
           <Button variant="link" onClick={handleLike}>
             <Image
               src={isLiked ? "/assets/heart-filled.svg" : "/assets/heart.svg"}
@@ -219,12 +212,12 @@ const AudioPostCard = ({ title, description, audioFileUrl, postId, user, current
             <span className="ml-1">{likeCount}</span>
           </Button>
 
-          <Button variant="link" onClick={handleComment} >
+          <Button variant="link" onClick={handleComment}>
             <Image src="/assets/comment.svg" alt="comment" width={20} height={20} className="dark:invert" />
-            <span className="ml-1">{commentCount}</span>
+            <span className="">{commentCount}</span>
           </Button>
-        </div>
 
+        </div>
       </section>
     </section>
   );

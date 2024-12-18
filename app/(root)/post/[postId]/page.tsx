@@ -51,7 +51,7 @@ async function page({ params }: { params: Promise<{ postId: string }> }) {
   }
 
   // Get the author's account ID
-  const AuthorId = post.accountId;
+  const AuthorId = user.accountId;
   if (!AuthorId) {
     console.error("AuthorId not found in post!");
     return null;
@@ -84,6 +84,7 @@ async function page({ params }: { params: Promise<{ postId: string }> }) {
           // @ts-ignore
           user={userInfo}
           postId={post.postId}
+          author={post.accountId}
           // @ts-ignore
           createdAt={post.$createdAt}
         />

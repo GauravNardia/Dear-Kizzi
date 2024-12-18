@@ -1,4 +1,3 @@
-import { getCurrentUser } from "@/lib/actions/user.actions";
 
 
 export const sidebarLinks = [

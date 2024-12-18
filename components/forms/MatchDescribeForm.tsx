@@ -32,9 +32,10 @@ interface Props {
   id: string; // Receiver's ID
   taskId: string; // Task ID
   taskName: string; // Task name
+  taskDuration: number;
 }
 
-export function MatchDescribeForm({ id, taskId, taskName }: Props) {
+export function MatchDescribeForm({ id, taskId, taskName, taskDuration }: Props) {
   const [loading, setLoading] = useState(false);
   const [currentUser, setCurrentUser] = useState<{
     accountId: string;
@@ -89,6 +90,7 @@ export function MatchDescribeForm({ id, taskId, taskName }: Props) {
       taskId,
       message: `wants to go on ${taskName}`,
       describe: values.describe,
+      duration: taskDuration,
     };
 
     setLoading(true);

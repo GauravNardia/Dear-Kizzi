@@ -16,9 +16,10 @@ interface Props {
   imgUrl: string; // Receiver's profile image URL
   taskId: string; // Task ID
   taskName: string; // Task name
+  taskduration: number;
 }
 
-function MatchingCard({ id, name, username, imgUrl, taskId, taskName }: Props) {
+function MatchingCard({ id, name, username, imgUrl, taskId, taskName, taskduration }: Props) {
   const [currentUser, setCurrentUser] = useState<{ accountId: string; name: string } | null>(null);
   const { toast } = useToast();
 
@@ -110,6 +111,7 @@ function MatchingCard({ id, name, username, imgUrl, taskId, taskName }: Props) {
              imgUrl={imgUrl} 
              taskId={taskId} 
              taskName={taskName}
+             taskDuration={taskduration}
             />
           </AlertDialogContent>
    </AlertDialog>

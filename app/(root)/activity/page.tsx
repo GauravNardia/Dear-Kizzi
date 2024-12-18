@@ -70,12 +70,13 @@ const Page = () => {
         senderId: user.accountId,
         taskName: match.message,
         status: "confirmed",
+        duration: match.duration,
       });
 
       toast({
         variant: "default",
         title: "You confirmed the request",
-        className: "bg-brand text-white"
+        className: "bg-green-500 text-white"
       })
 
       setMatches((prevMatches) =>
@@ -216,7 +217,7 @@ const Page = () => {
            <AlertDialogContent className="rounded-md">
           <AlertDialogHeader>
             <AlertDialogTitle className="flex justify-between items-center">
-              Detailes.
+              Details.
               <AlertDialogCancel className="bg-none border-none text-gray-400">X</AlertDialogCancel>
             </AlertDialogTitle>
           </AlertDialogHeader>

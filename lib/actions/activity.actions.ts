@@ -46,12 +46,15 @@ export async function createMatch({
   taskId,
   message,
   describe,
+  duration,
 }: {
   senderId: string;
   receiverId: string;
   taskId: string;
   message: string;
   describe: string;
+  duration: number;
+  
 }) {
   try {
     console.log({
@@ -63,6 +66,7 @@ export async function createMatch({
         taskId,
         message,
         describe,
+        duration
       },
     });
 
@@ -72,7 +76,8 @@ export async function createMatch({
       taskId,
       message,
       describe,
-      status: "pending"
+      status: "pending",
+      duration,
     });
     return response; // Return the response if needed in the caller
   } 
@@ -100,7 +105,6 @@ export async function getMatch(receiverId: string) {
     ]);
 
 
-
     if (response.documents.length === 0) return [];
 
     return Promise.all(
@@ -116,6 +120,7 @@ export async function getMatch(receiverId: string) {
   }
 }
 
+
 /**
  * Update the status of a match.
  */
@@ -124,11 +129,13 @@ export async function confirmMatch({
   senderId,
   taskName,
   status,
+  duration,
 }: {
   receiverId: string;
   senderId: string;
   taskName: string;
   status: "pending" | "confirmed" | "cancel";
+  duration: number;
 }) {
   try {
     const documents = await databases.listDocuments(DATABASE_ID, MATCH_ID, [

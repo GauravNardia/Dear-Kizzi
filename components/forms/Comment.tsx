@@ -36,6 +36,8 @@ interface Props {
 
 function Comment({ postId, currentUserImg, accountId, name }: Props) {
   const [comments, setComments] = useState<CommentProps[]>([]);
+  console.log("accid", accountId)
+
 
   const form = useForm<z.infer<typeof CommentValidation>>({
     resolver: zodResolver(CommentValidation),
