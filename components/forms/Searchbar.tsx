@@ -16,8 +16,7 @@ const Searchbar = ({ routeType }: Props) => {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-
-    const params = query.trim() ? `?q=${query}` : "";
+    const params = query.trim() ? `?q=${encodeURIComponent(query)}` : "";
     router.push(`/${routeType}${params}`);
   };
 
@@ -30,14 +29,18 @@ const Searchbar = ({ routeType }: Props) => {
         placeholder="Search..."
         className="p-5 rounded-full"
       />
-      <Button type="submit" className="bg-brand p-2 rounded-full flex items-center hover:bg-brand-100">
-        <Image
-        src="/assets/search.svg"
-        alt="search"
-        width={25}
-        height={25}
-        className="invert object-cover "
-        />
+      <Button
+        type="submit"
+        className="bg-brand p-2 rounded-full flex items-center hover:bg-brand-100"
+      >
+          <Image
+            src="/assets/search.svg"
+            alt="search"
+            width={25}
+            height={25}
+            className="invert object-cover"
+          />
+        
       </Button>
     </form>
   );

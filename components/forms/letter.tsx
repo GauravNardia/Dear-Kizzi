@@ -20,6 +20,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import MDEditor from '@uiw/react-md-editor';
+import { Textarea } from "../ui/textarea";
 
 // Validation schema for the form.
 const formSchema = z.object({
@@ -133,19 +134,11 @@ export function LetterForm({ accountId }: LetterFormProps) {
             <FormItem>
               <FormLabel className="text-2xl font-semibold text-gray-800">Write your thoughts</FormLabel>
               <FormControl>
-                <MDEditor
-                  value={field.value}
-                  onChange={(value) => field.onChange(value || "")}
-                  id="letter"
-                  preview="edit"
-                  height={300}
-                  style={{ borderRadius: 20, overflow: "hidden" }}
-                  textareaProps={{
-                    placeholder: "Write your letter",
-                  }}
-                  previewOptions={{
-                    disallowedElements: ["style"],
-                  }}
+              <Textarea
+                  {...field}
+                  placeholder="Write your letter"
+                  rows={8}
+                  className="w-full p-4 border border-gray-300 rounded-xl bg-white focus:ring focus:ring-brand focus:outline-none"
                 />
               </FormControl>
               <FormMessage />
