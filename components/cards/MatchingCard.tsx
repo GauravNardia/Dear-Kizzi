@@ -3,11 +3,11 @@
 import Image from "next/image";
 import { Button } from "../ui/button";
 import { useEffect, useState } from "react";
-import { getCurrentUser } from "@/lib/actions/user.actions";
 import { createMatch } from "@/lib/actions/activity.actions";
 import {useToast} from "@/hooks/use-toast"
 import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "../ui/alert-dialog";
 import { MatchDescribeForm } from "../forms/MatchDescribeForm";
+import { getCurrentUser } from "@/lib/actions/user.actions";
 
 interface Props {
   id: string; // Receiver's ID

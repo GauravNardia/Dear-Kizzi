@@ -17,22 +17,22 @@ interface Props {
     bio: string;
     profilePhoto: string;
     profilePhotoUrl: string;
-    accountId: string;
+    id: string;
   };
 }
 
 const AccountProfile = ({ user }: Props) => {
   const { toast } = useToast()
   const router = useRouter();
-  const [preview, setPreview] = useState<string>(user.profilePhotoUrl || "/assets/profile.svg");
+  const [preview, setPreview] = useState<string>("/assets/profile.svg");
   const [profileFile, setProfileFile] = useState<File | null>(null);
 
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
     defaultValues: {
-      profilePhoto: user.profilePhotoUrl || "",
-      name: user.name,
-      username: user.username,
-      bio: user.bio,
+      profilePhoto: user?.profilePhotoUrl || "/assets/log.png",
+      name: user?.name || null,
+      username: user?.username || null,
+      bio: user?.bio || null,
     },
   });
 
@@ -53,7 +53,7 @@ const AccountProfile = ({ user }: Props) => {
         bio: data.bio,
         profileFile,
       });
-      router.push(`/user/${user.accountId}/profile`);
+      router.push(`/user/${user.id}/profile`);
     } catch (error) {
       console.error("Error during registration:", error);
     }
@@ -86,37 +86,27 @@ const AccountProfile = ({ user }: Props) => {
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-8 h-screen">
       {/* Profile Photo Section */}
       <div className="flex flex-col items-center space-y-4">
-        <label htmlFor="profilePhoto" className="text-lg font-semibold text-gray-700">
-          Profile Photo
-        </label>
-        <div className="relative group">
-          {preview ? (
-            <img
-              src={preview}
-              alt="Profile Preview"
-              className="rounded-full object-cover w-24 h-24 border-2 border-gray-300 shadow-md hover:scale-105 transition-transform duration-300"
-            />
-          ) : (
-            <Image
-              src="/assets/profile.png"
-              alt="Default Profile"
-              width={96}
-              height={96}
-              className="rounded-full object-cover border-2 border-gray-300 shadow-md hover:scale-105 transition-transform duration-300"
-            />
-          )}
-          <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <span className="text-white text-sm font-medium">Change Photo</span>
-          </div>
-        </div>
-        <input
-          id="profilePhoto"
-          type="file"
-          accept="image/*"
-          className="text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 cursor-pointer"
-          onChange={handleImageChange}
-        />
-      </div>
+  <label htmlFor="profilePhoto" className="text-lg font-semibold text-gray-700">
+    Profile Photo
+  </label>
+  <div className="relative group">
+    <img
+      src={preview || '/assets/logo.webp'}
+      alt={preview ? 'Profile Preview' : 'Default Profile'}
+      className="rounded-full object-cover w-24 h-24 border-2 border-gray-300 shadow-md hover:scale-105 transition-transform duration-300"
+    />
+    <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+      <span className="text-white text-sm font-medium">Change Photo</span>
+    </div>
+  </div>
+  <input
+    id="profilePhoto"
+    type="file"
+    accept="image/*"
+    className="text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 cursor-pointer"
+    onChange={handleImageChange}
+  />
+</div>
 
       {/* Name Input */}
       <div>

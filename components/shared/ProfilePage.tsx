@@ -14,6 +14,7 @@ interface Props {
     followers: number;
     websiteUrl?: string;
     accountId: string;
+    coin: number;
   };
   accountId: string;
 }
@@ -33,19 +34,9 @@ const ProfilePage = ({ user, accountId }: Props) => {
           <p className="text-gray-600 font-semibold text-sm mt-4">{user.bio || "No bio available."}</p>
 
           {/* Followers & Website */}
-          {/* <div className="flex items-center space-x-2 text-gray-400 text-sm mt-3">
-            <p>{user.followers} followers</p>
-            {user.websiteUrl && (
-              <a
-                href={user.websiteUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:underline text-blue-500"
-              >
-                {user.websiteUrl}
-              </a>
-            )}
-          </div> */}
+          <div className="flex items-center space-x-2 text-gray-400 text-sm mt-3">
+          <p className="text-md font-semibold">Coins: {user.coin}</p>
+          </div>
         </div>
 
         {/* Profile Image */}

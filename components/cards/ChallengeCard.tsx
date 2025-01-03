@@ -61,47 +61,51 @@ const ChallengeCard = ({ task }: TaskProps) => {
       </div>
 
       <AlertDialog>
-        <AlertDialogTrigger asChild>
-          <Button
-            onClick={handleParticipate}
-            className="bg-brand text-white px-6 py-2 rounded-full font-semibold text-sm shadow-md hover:bg-brand-100 hover:text-white focus:ring-4 focus:ring-indigo-300 transition"
-            variant="outline"
-          >
-            Participate
-          </Button>
-        </AlertDialogTrigger>
-        <AlertDialogContent className="rounded-md">
-          <AlertDialogHeader>
-            <AlertDialogTitle className="flex justify-between items-center">
-              Matched partners.
-              <AlertDialogCancel className="bg-none border-none text-gray-400">X</AlertDialogCancel>
-            </AlertDialogTitle>
-            <AlertDialogDescription className="text-md text-gray-600">
-              Once they confirm your request, complete the challenge!
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <section>
-            {loading ? (
-              <div className="w-full flex justify-center">Loading matches...</div>
-            ) : users.length > 0 ? (
-              users.map((user) => (
-                <MatchingCard
-                  key={user.accountId}
-                  id={user.accountId}
-                  name={user.name}
-                  username={user.username}
-                  imgUrl={user.imgUrl} 
-                  taskId={task.id} 
-                  taskName={task.name}
-                  taskduration={task.duration} 
-                  />
-              ))
-            ) : (
-              <p>No matches found. See other challenges!</p>
-            )}
-          </section>
-        </AlertDialogContent>
-      </AlertDialog>
+  <AlertDialogTrigger asChild>
+    <Button
+      onClick={handleParticipate}
+      className="bg-brand text-white px-6 py-2 rounded-full font-semibold text-sm shadow-md hover:bg-brand-100 hover:text-white focus:ring-4 focus:ring-indigo-300 transition"
+      variant="outline"
+    >
+      Participate
+    </Button>
+  </AlertDialogTrigger>
+  <AlertDialogContent className="rounded-md">
+    <AlertDialogHeader>
+      <AlertDialogTitle className="flex justify-between items-center">
+        Matched partners.
+        <AlertDialogCancel className="bg-none border-none text-gray-400">
+          X
+        </AlertDialogCancel>
+      </AlertDialogTitle>
+      <AlertDialogDescription className="text-md text-gray-600">
+        Once they confirm your request, complete the challenge!
+      </AlertDialogDescription>
+    </AlertDialogHeader>
+    {/* Scrollable Section */}
+    <div className="max-h-[450px] overflow-y-auto px-2">
+      {loading ? (
+        <div className="w-full flex justify-center">Loading matches...</div>
+      ) : users.length > 0 ? (
+        users.map((user) => (
+          <MatchingCard
+            key={user.accountId}
+            id={user.accountId}
+            name={user.name}
+            username={user.username}
+            imgUrl={user.imgUrl}
+            taskId={task.id}
+            taskName={task.name}
+            taskduration={task.duration}
+          />
+        ))
+      ) : (
+        <p>No matches found. See other challenges!</p>
+      )}
+    </div>
+  </AlertDialogContent>
+</AlertDialog>
+
     </div>
   );
 };

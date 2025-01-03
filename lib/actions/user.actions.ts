@@ -25,6 +25,7 @@ const getUserByEmail = async (email: string) => {
   return result.total > 0 ? result.documents[0] : null;
 };
 
+
 const handleError = (error: unknown, message: string) => {
   console.log(error, message);
   throw error;
@@ -41,6 +42,7 @@ export const sendEmailOTP = async ({ email }: { email: string }) => {
     handleError(error, "Failed to send email OTP");
   }
 };
+
 
 export const createAccount = async ({
   name,

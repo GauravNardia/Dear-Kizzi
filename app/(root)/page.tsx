@@ -100,8 +100,7 @@ const PostsList = async ({
               user={post.user}
               currentUser={currentUser.accountId}
               postId={post.postId}
-              createdAt={post.$createdAt}
-            />
+              createdAt={post.$createdAt} author={""}            />
           ))}
         </div>
       ) : (

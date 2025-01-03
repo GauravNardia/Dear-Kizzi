@@ -40,9 +40,9 @@ const OtpModal = ({
     try {
       const sessionId = await verifySecret({ accountId, password });
 
-      
-
-      if (sessionId) router.push("/onboarding");
+      if (sessionId){
+        router.push("/onboarding");
+      }
     } catch (error) {
       console.log("Failed to verify OTP", error);
     }

@@ -57,19 +57,6 @@ export async function createMatch({
   
 }) {
   try {
-    console.log({
-      DATABASE_ID,
-      MATCH_ID,
-      payload: {
-        senderId,
-        receiverId,
-        taskId,
-        message,
-        describe,
-        duration
-      },
-    });
-
     const response = await databases.createDocument(DATABASE_ID, MATCH_ID, ID.unique(), {
       senderId,
       receiverId,

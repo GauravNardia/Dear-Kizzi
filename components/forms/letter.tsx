@@ -147,7 +147,7 @@ export function LetterForm({ accountId }: LetterFormProps) {
         />
 
         {/* Submit button */}
-        <Button type="submit" className="rounded-full" disabled={loading}>
+        <Button type="submit" className="rounded-full bg-brand hover:bg-brand-100" disabled={loading}>
           {loading ? (
             "Saving..."
           ) : (

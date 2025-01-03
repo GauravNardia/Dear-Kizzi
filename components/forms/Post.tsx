@@ -216,7 +216,7 @@ export function Post({ accountId }: PostFormProps) {
 
 
         {/* Submit button */}
-        <Button type="submit" className="rounded-full" >  
+        <Button type="submit" className="rounded-full bg-brand hover:bg-brand-100" >  
       {loading ? (
       "Sharing..."
   ) : (
